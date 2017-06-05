@@ -3,6 +3,9 @@ title: learn shell script
 tags:
 ---
 
+## `source` 和 `./` 的区别
+`source` 是在当前的session执行
+'./' 是重新创建一个新的session
 
 ## 指定脚本的执行程序
 ```

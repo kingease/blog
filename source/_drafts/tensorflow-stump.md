@@ -3,12 +3,12 @@ title: tensorflow中的各种坑
 tags: [tensorflow, 注意]
 ---
 
-## 1. tf.contrib.layers.fullyconnected
+## 1. tf.contrib.layers.fullyconnected。
 1. 如果不指定激活函数`activation_fn = None`，激活函数模式是`RELU`而不是线性函数。
 2. 激活函数如果想设置成线性函数，**必须**有参数`activation_fn = None`
 
 
-## 2.1 在tf.reshape的时候如果对None维度报错
+## 2.1 在tf.reshape的时候如果对None维度报错。
 ```
 logits = tf.reshape(logits, [batch_size, max_time, num_classes])
 ```
@@ -27,7 +27,7 @@ batch_size, max_time = shape[0], shape[1]
 ```
 
 
-## 2.2 在tf.layers.dense时使用tf.shape的输出会报错
+## 2.2 在tf.layers.dense时使用tf.shape的输出会报错。
 和上一个问题相似，但恰恰需要使用`get_shape()` 来获取非`None`维度，传给`tf.layers.dense`函数，否则也会报错。
 一般 shape 的最后一个维度为具体的值而非'None',这正是dense函数所需要的。
 

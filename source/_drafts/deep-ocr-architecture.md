@@ -22,7 +22,8 @@ MSER(最大稳定极值区域)，该方法在不同的阈值下(thresholds or le
 1. CNN
 2. LSTM
 3. CTC
-4. batch normalization
+4. batch normalization 
+    5. 训练时，需要将参数 training 设置为 True
 
 1. 设置输入图像的大小 height:128, width:512
 2. 验证模型的可工作性

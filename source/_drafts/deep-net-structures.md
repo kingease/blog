@@ -118,6 +118,13 @@ tf.layers.dense(x, num_class, activation=None)
 1. ctc 
 
 ### ctc loss
+
+> RNN的展开的次数（times）如果大的话，下降的速度会变慢？
+
+ctc 的 loss 下降非常非常缓慢。
+现在观察到的现象是， 以列像素为特征，直接交给RNN, 输出分类后，然后再交给ctc，会发现，先找对匹配的个数， 然后才是内容。
+
+
 目前看到的 ctc loss 的教程都来自 `https://github.com/igormq/ctc_tensorflow_example`。
 ```
 loss = tf.nn.ctc_loss(
@@ -218,6 +225,17 @@ with graph.as_default():
 
 同一个batch的数据结构维度都需要是一致。
 
+
+### Session 是 tensorflow 到 标准环境的转换
+比方说，如果我们想打印某个tensorflow的值，直接print是不可以的。必须通过session的转换才可以。
+
+``` python
+# 先输出
+expr_out = sess.run([express], feed)
+# 才能打印
+print(expr_out)
+```
+
 > 如何构造Inputs定义的结构？
 
 例如，将图像作为RNN输入
@@ -227,6 +245,9 @@ tf.placeholders(tf.float32, [batch_size, max_step, num_feature])
 batch_size: None    # 批次数量的多少， 由输入的数量决定
 max_step: None      # 与图像width正相关的一个值, 可以是图像的高度， 由输入的数量决定
 num_feature: 固定值  # 可以是图像的高度， 固定，不可改变，输入的任何数据都不能改变
+
+
+
 
 ### 案例
 > 如何生成 文字图像数据 和 文字标签数据 为 RNN 和 ctc-loss 生成输入数据？
