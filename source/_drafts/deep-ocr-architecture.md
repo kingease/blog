@@ -4,34 +4,51 @@ tags:
 ---
 
 
+# 工作流的主要组成部分
+
+1. doc detection
+2. rectification
+3. word detector
+4. word recognization
+5. attention filter
 
 
+##  3. 词的侦测 Word Detector
 
-##  词的侦测 Word Detector
-
-### 基于深度网络的方法
-主要的方法有 RCNN , 目前用于物体包围盒（bounding boxes）的定位, 如猫，狗，一般是 1~5个给定的物体。
-
-### 传统的计算机视觉方法
+### 传统的计算机视觉方法 （对字体宽度不大的字，很容易丢失）
 MSER(最大稳定极值区域)，该方法在不同的阈值下(thresholds or levels), 来寻找斑块(blobs), 对文本而言，是一个很好的方法。
 
+### 基于SSD深度网络的方法
+目前计划使用 SSD （single short dectection）的方法做文字部分的检测。
+#### SSD 
+参考： https://github.com/balancap/SSD-Tensorflow
+详细在笔记 Single-Shot-MultiBox-Detector-in-TensorFlow.md中讨论
 
-## 词的深度网 Word Deep Net
+#### word detection
+参考：https://github.com/oyxhust/ssd-text_detection
+
+### attention_ocr
+参考：https://github.com/tensorflow/models/tree/master/attention_ocr
+tensorflow google 的 一种方法。
+
+### 另外一个 Attention-OCR
+这个应该属于 WDN 部分的一个实现。
+https://github.com/da03/Attention-OCR 
+
+
+
+## 4. 词的深度网 Word Deep Net
 
 ### 深度网
 1. CNN
 2. LSTM
 3. CTC
 4. batch normalization 
-    5. 训练时，需要将参数 training 设置为 True
-
-1. 设置输入图像的大小 height:128, width:512
-2. 验证模型的可工作性
 
 
 input images:
-    1. 长和宽的长度是固定的（以后更长的需要，主动切断图像，目前不在考虑范围之内）
-    2. 目前只支持灰白图（减少输入的变化范围）
+1. 长和宽的长度是固定的（以后更长的需要，主动切断图像，目前不在考虑范围之内）
+2. 目前只支持灰白图（减少输入的变化范围）
 
 
 ### 生成训练数据
@@ -44,4 +61,5 @@ input images:
 2. 所使用的字体
 3. 一组几何(gemoetric)和光度(photometric)的变化来模拟真实场景带来的变化
 4. a large number of visual transformations, such as warping, fake shadows, and fake creases, and much more.
+5. 如何生成数据集，参考：http://www.robots.ox.ac.uk/~vgg/data/text/#sec-chars
 

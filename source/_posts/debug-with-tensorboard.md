@@ -8,6 +8,7 @@ tags:
 date: 2017-06-05 17:11:38
 ---
 
+(still working)
 
 ## 将网络规则化
 首先要对各个层，赋予有意义的`name_scope`，如

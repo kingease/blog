@@ -1,8 +1,12 @@
 ---
 title: deep net structures
 tags:
+  - tensorflow
+  - deep learning
+date: 2017-05-24 00:00:00
 ---
 
+(still working)
 
 # deep net 的 组成
 1. inputs
