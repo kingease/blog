@@ -59,3 +59,13 @@ tags:
 ### 神经网络层的种类
 #### 嵌入层
     1. 输入: tf.placeholder(tf.int32, [<>])
+
+### 教程
+Deep Learning for Computer Vision 
+http://imatge-upc.github.io/telecombcn-2016-dlcv/
+
+
+### python 语言
+[with statement]
+http://effbot.org/zone/python-with-statement.htm
+

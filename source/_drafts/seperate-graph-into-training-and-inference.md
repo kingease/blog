@@ -7,6 +7,7 @@ tags:
 
 [debug with tensorboard](https://kingease.github.io/2017/06/05/debug-with-tensorboard/)
 
+
 ## 分析
 在训练时创建一个`graph`，在推断时又是另外一个`graph`，但是这两个`graph`又具有相同的部分。
 因为，训练出来的权重应当在推断时使用。一般是在训练时，保存一份权重数据，也就是训练出来的*模型*。
@@ -23,6 +24,8 @@ tags:
 |-----------|:-----:|:-------:|
 | training  |   1   |    2    |
 | inference |   3   |    4    |
+
+
 
 
 ## 如何使用
@@ -46,4 +49,5 @@ tags:
 
 ### 4. run for inference
 
-
+所以， 
+网络创建时一定要有是否在训练的参数。

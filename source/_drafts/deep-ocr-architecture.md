@@ -18,6 +18,28 @@ tags:
 ### 传统的计算机视觉方法 （对字体宽度不大的字，很容易丢失）
 MSER(最大稳定极值区域)，该方法在不同的阈值下(thresholds or levels), 来寻找斑块(blobs), 对文本而言，是一个很好的方法。
 
+简易环境的方法和样例：
+文章：http://www.danvk.org/2015/01/07/finding-blocks-of-text-in-an-image-using-python-opencv-and-numpy.html
+对应的代码：
+https://github.com/danvk/oldnyc/blob/master/ocr/tess/crop_morphology.py
+
+scikit-image 图像处理
+http://feram.co/scikit-image-cheatsheet/
+
+document scanner
+http://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/
+
+#### 一个实现的code
+https://github.com/AwesomeLemon/document-recognition
+以及对应的文章
+https://awesomelemon.github.io/2017/01/15/Document-recognition-with-Python-OpenCV-and-Tesseract.html
+
+试用了代码，发现可以抓取感兴趣的区域，但是不太稳定。
+`cv2.connectedComponentsWithStats` 可以在binary上找连续区域，
+但要依赖于好的的binary,
+压线的情况有时不利于连续区域的搜索。
+
+
 ### 基于SSD深度网络的方法
 目前计划使用 SSD （single short dectection）的方法做文字部分的检测。
 #### SSD 
@@ -62,4 +84,5 @@ input images:
 3. 一组几何(gemoetric)和光度(photometric)的变化来模拟真实场景带来的变化
 4. a large number of visual transformations, such as warping, fake shadows, and fake creases, and much more.
 5. 如何生成数据集，参考：http://www.robots.ox.ac.uk/~vgg/data/text/#sec-chars
+6. 上述数据生成代码可能是：https://bitbucket.org/jaderberg/text-renderer
 
