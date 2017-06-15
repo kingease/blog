@@ -3,7 +3,9 @@ title: How to convert dataset to TF-Record files
 tags:
 ---
 
-## 单个图像的文件信息读取
+## 生成TF-Record的文件
+
+### 单个图像的文件信息读取
 1. 使用`tf.gfile.FastGFile().read()`读取图像文件到内存`image_data`
 2. 读图像的`shape`=[height, width, depth]
 3. 读取`bboxs`=[(ymin,xmin,ymax,xmax),...,(ymin,xmin,ymax,xmax)]
@@ -17,10 +19,8 @@ tags:
     - 0, 1, 2, ... 是标出物体的的类别
     - 0 为 none 保留，表示背景
 
-生成TF-Record的文件参考：
 ``` python
-# reference:
-# https://github.com/balancap/SSD-Tensorflow/blob/master/datasets/pascalvoc_to_tfrecords.py
+# reference: https://github.com/balancap/SSD-Tensorflow/blob/master/datasets/pascalvoc_to_tfrecords.py
 
 def _process_image(directory, name):
     """Process a image and annotation file.
@@ -50,23 +50,25 @@ def _process_image(directory, name):
         labels.append(int(VOC_LABELS[label][0]))
         labels_text.append(label.encode('ascii'))
 
-        if obj.find('difficult'):
-            difficult.append(int(obj.find('difficult').text))
-        else:
-            difficult.append(0)
-        if obj.find('truncated'):
-            truncated.append(int(obj.find('truncated').text))
-        else:
-            truncated.append(0)
-
         bbox = obj.find('bndbox')
         bboxes.append((float(bbox.find('ymin').text) / shape[0],
                        float(bbox.find('xmin').text) / shape[1],
                        float(bbox.find('ymax').text) / shape[0],
                        float(bbox.find('xmax').text) / shape[1]
                        ))
-    return image_data, shape, bboxes, labels, labels_text, difficult, truncated
+    return image_data, shape, bboxes, labels, labels_text
+```
 
+### 单个文件的信息转成tfrecord
+1. 将`bboxs`拆成`ymin`, `xmin`, `ymax`, `ymax`四个字段。
+2. 增加`image_format`
+2. 每一个对象使用`int64_feature, float_feature, bytes_feature`进行转换
+3. 生成`tf.train.Features()`对象
+4. 生产`tf.train.Example`对象
+5. `tf.python_io.TFRecordWriter`将`Example.SerializeToString()`对象写入
+
+``` python
+# reference: https://github.com/balancap/SSD-Tensorflow/blob/master/datasets/pascalvoc_to_tfrecords.py
 
 def _convert_to_example(image_data, labels, labels_text, bboxes, shape,
                         difficult, truncated):
@@ -131,7 +133,7 @@ def _get_output_filename(output_dir, name, idx):
     return '%s/%s_%03d.tfrecord' % (output_dir, name, idx)
 
 
-def run(dataset_dir, output_dir, name='voc_train', shuffling=False):
+def run(dataset_dir, output_dir, name='voc_train'):
     """Runs the conversion operation.
 
     Args:
@@ -144,22 +146,23 @@ def run(dataset_dir, output_dir, name='voc_train', shuffling=False):
     # Dataset filenames, and shuffling.
     path = os.path.join(dataset_dir, DIRECTORY_ANNOTATIONS)
     filenames = sorted(os.listdir(path))
-    if shuffling:
-        random.seed(RANDOM_SEED)
-        random.shuffle(filenames)
 
     # Process dataset files.
     i = 0
     fidx = 0
     while i < len(filenames):
         # Open new TFRecord file.
+        # output_dir : /tmp/
+        # name : voc_2012_train
         tf_filename = _get_output_filename(output_dir, name, fidx)
+        # tf_filename = /tmp/voc_2012_train_0.tfrecord
+        # tf_filename = /tmp/voc_2012_train_1.tfrecord
+        # ....
+        
         with tf.python_io.TFRecordWriter(tf_filename) as tfrecord_writer:
             j = 0
+            # 一个 .tfrecord 文件内保存 SAMPLES_PER_FILES 个图像文件信息
             while i < len(filenames) and j < SAMPLES_PER_FILES:
-                sys.stdout.write('\r>> Converting image %d/%d' % (i+1, len(filenames)))
-                sys.stdout.flush()
-
                 filename = filenames[i]
                 img_name = filename[:-4]
                 _add_to_tfrecord(dataset_dir, img_name, tfrecord_writer)
@@ -171,5 +174,124 @@ def run(dataset_dir, output_dir, name='voc_train', shuffling=False):
     # labels_to_class_names = dict(zip(range(len(_CLASS_NAMES)), _CLASS_NAMES))
     # dataset_utils.write_label_file(labels_to_class_names, dataset_dir)
     print('\nFinished converting the Pascal VOC dataset!')
+
+```
+以上在`/tmp/`下生成了一组`voc_2012_train_*.tfrecord`文件.
+
+
+## 读取TF-Record文件
+在datasets下创建读取tfrecord文件的module.
+``` python
+import tensorflow as tf
+
+slim = tf.contrib.slim
+
+FILE_PATTERN = 'voc_2012_%s_*.tfrecord'
+ITEMS_TO_DESCRIPTIONS = {
+    'image': 'A color image of varying height and width.',
+    'shape': 'Shape of the image',
+    'object/bbox': 'A list of bounding boxes, one per each object.',
+    'object/label': 'A list of labels, one per each object.',
+}
+# (Images, Objects) statistics on every class.
+TRAIN_STATISTICS = {
+    'none': (0, 0),
+    'aeroplane': (670, 865),
+    'bicycle': (552, 711),
+    'bird': (765, 1119),
+    'boat': (508, 850),
+    'bottle': (706, 1259),
+    'bus': (421, 593),
+    'car': (1161, 2017),
+    'cat': (1080, 1217),
+    'chair': (1119, 2354),
+    'cow': (303, 588),
+    'diningtable': (538, 609),
+    'dog': (1286, 1515),
+    'horse': (482, 710),
+    'motorbike': (526, 713),
+    'person': (4087, 8566),
+    'pottedplant': (527, 973),
+    'sheep': (325, 813),
+    'sofa': (507, 566),
+    'train': (544, 628),
+    'tvmonitor': (575, 784),
+    'total': (11540, 27450),
+}
+SPLITS_TO_SIZES = {
+    'train': 17125,
+}
+SPLITS_TO_STATISTICS = {
+    'train': TRAIN_STATISTICS,
+}
+NUM_CLASSES = 20
+
+
+def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
+    """Gets a dataset tuple with instructions for reading ImageNet.
+
+    Args:
+      split_name: A train/test split name.
+      dataset_dir: The base directory of the dataset sources.
+      file_pattern: The file pattern to use when matching the dataset sources.
+        It is assumed that the pattern contains a '%s' string so that the split
+        name can be inserted.
+      reader: The TensorFlow reader type.
+
+    Returns:
+      A `Dataset` namedtuple.
+
+    Raises:
+        ValueError: if `split_name` is not a valid train/test split.
+    """
+    if not file_pattern:
+        file_pattern = FILE_PATTERN
+    
+    if split_name not in SPLITS_TO_SIZES:
+        raise ValueError('split name %s was not recognized.' % split_name)
+    file_pattern = os.path.join(dataset_dir, file_pattern % split_name)
+
+    # Allowing None in the signature so that dataset_factory can use the default.
+    if reader is None:
+        reader = tf.TFRecordReader
+    # Features in Pascal VOC TFRecords.
+    keys_to_features = {
+        'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),
+        'image/format': tf.FixedLenFeature((), tf.string, default_value='jpeg'),
+        'image/height': tf.FixedLenFeature([1], tf.int64),
+        'image/width': tf.FixedLenFeature([1], tf.int64),
+        'image/channels': tf.FixedLenFeature([1], tf.int64),
+        'image/shape': tf.FixedLenFeature([3], tf.int64),
+        'image/object/bbox/xmin': tf.VarLenFeature(dtype=tf.float32),
+        'image/object/bbox/ymin': tf.VarLenFeature(dtype=tf.float32),
+        'image/object/bbox/xmax': tf.VarLenFeature(dtype=tf.float32),
+        'image/object/bbox/ymax': tf.VarLenFeature(dtype=tf.float32),
+        'image/object/bbox/label': tf.VarLenFeature(dtype=tf.int64),
+    }
+    items_to_handlers = {
+        'image': slim.tfexample_decoder.Image('image/encoded', 'image/format'),
+        'shape': slim.tfexample_decoder.Tensor('image/shape'),
+        'object/bbox': slim.tfexample_decoder.BoundingBox(
+                ['ymin', 'xmin', 'ymax', 'xmax'], 'image/object/bbox/'),
+        'object/label': slim.tfexample_decoder.Tensor('image/object/bbox/label'),
+    }
+    decoder = slim.tfexample_decoder.TFExampleDecoder(
+        keys_to_features, items_to_handlers)
+
+    labels_to_names = None
+    if dataset_utils.has_labels(dataset_dir):
+        labels_to_names = dataset_utils.read_label_file(dataset_dir)
+    # else:
+    #     labels_to_names = create_readable_names_for_imagenet_labels()
+    #     dataset_utils.write_label_file(labels_to_names, dataset_dir)
+
+    return slim.dataset.Dataset(
+            data_sources=file_pattern,
+            reader=reader,
+            decoder=decoder,
+            num_samples=SPLITS_TO_SIZES[split_name],
+            items_to_descriptions=ITEMS_TO_DESCRIPTIONS,
+            num_classes=NUM_CLASSES,
+            labels_to_names=labels_to_names)
 
 ```
