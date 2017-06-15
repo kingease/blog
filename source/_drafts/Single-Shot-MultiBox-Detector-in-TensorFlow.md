@@ -13,6 +13,14 @@ tags:
 - [ ] 看懂代价方程
     - [ ] 
 - [ ] 看懂预处理步骤
+    - [ ] tf_image_whitened
+- [ ] 如何进行的数据的输入
+    - [ ] slim的使用
+    - [ ] dataset and batch `DatasetDataProvider` for train
+    - [ ] single image `tf.placeholder`
+- [ ] 如何检测一步一步的结果
+    - [ ] tf.InteractiveSession
+    - [ ] test 的方式 tf.test.TestCase
 
 
 # SSD 的原理
