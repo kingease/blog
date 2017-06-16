@@ -13,69 +13,6 @@ tags:
 ### 1. datasets
 训练时，读取使用的数据集，分片等，所有的数据集都要封装成module。
 
-#### 使用现成的数据集
-这肯定不是我们需要的，毕竟我们要提供自己的数据集，或者将数据集转换成，这种格式。不过它介绍大致的流程
-
-1. 下载并转换成TF-Record的格式
-    ``` bash
-    $ DATA_DIR=/tmp/data/flowers
-    $ python download_and_convert_data.py \
-        --dataset_name=flowers \
-        --dataset_dir="${DATA_DIR}"
-    ```
-    文件夹的结构是
-    ``` bash
-    $ ls ${DATA_DIR}
-    flowers_train-00000-of-00005.tfrecord
-    ...
-    flowers_train-00004-of-00005.tfrecord
-    flowers_validation-00000-of-00005.tfrecord
-    ...
-    flowers_validation-00004-of-00005.tfrecord
-    labels.txt
-    ```
-2. 在datasets的package(文件夹)下建立flower数据集module
-    ``` python
-    # https://github.com/tensorflow/models/blob/master/slim/datasets/flowers.py
-
-    def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
-      """Gets a dataset tuple with instructions for reading flowers.
-      Args:
-        split_name: A train/validation split name.
-        dataset_dir: The base directory of the dataset sources.
-        file_pattern: The file pattern to use when matching the dataset sources.
-          It is assumed that the pattern contains a '%s' string so that the split
-          name can be inserted.
-        reader: The TensorFlow reader type.
-      Returns:
-        A `Dataset` namedtuple.
-      Raises:
-        ValueError: if `split_name` is not a valid train/validation split.
-      """
-      ...
-    ```
-3. 使用dataset的数据
-    ``` python
-    import tensorflow as tf
-    from datasets import flowers
-
-    slim = tf.contrib.slim
-
-    # Selects the 'validation' dataset.
-    # DATA_DIR 是来自命令行参数的变量，和上述的环境变量相同
-    dataset = flowers.get_split('validation', DATA_DIR)
-
-    # Creates a TF-Slim DataProvider which reads the dataset in the background
-    # during both training and testing.
-    provider = slim.dataset_data_provider.DatasetDataProvider(dataset)
-    [image, label] = provider.get(['image', 'label'])
-    ```
-
-#### 自己转换格式
-参考1：https://kwotsin.github.io/tech/2017/01/29/tfrecords.html
-参考2：https://github.com/balancap/SSD-Tensorflow/blob/master/datasets/pascalvoc_to_tfrecords.py
-参考文档：how to convert dataset to TF-Record files
-
 ### 2. preprocessing
 图像的预处理函数 不同的网络，可能有不同的预处理函数，如：
 1. vgg
@@ -83,13 +20,20 @@ tags:
 3. ssd_vgg
 
 ### 3. nets
-存放网络结构
+1. 存放网络结构,网络结构中不包含`INPUTS`层的定义，但默认好作为输入。
+2. nets有istraining开关，决定是否使用在训练还是推断阶段。
 
 ### 4. deployment
 暂时不知道，可能跟部署有关
 
 ### 5. checkpoints
 存放训练的保存的模型
+
+## Train的组件与流程
+
+## Evaluation的组件与流程
+
+## Inference的组件与流程
 
 ## 参考
 [slim doc](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)
