@@ -3,13 +3,6 @@ title: tensorflow slim tutorial
 tags:
 ---
 
-## 参考
-[slim doc](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)
-
-[官方样板工程](https://github.com/tensorflow/models/tree/master/slim)
-[mnist工程](https://github.com/mnuke/tf-slim-mnist)
-[ssd tf工程](https://github.com/balancap/SSD-Tensorflow)
-
 ## slim 的工程的结构
 1. datasets
 2. preprocessing
@@ -97,3 +90,10 @@ tags:
 
 ### 5. checkpoints
 存放训练的保存的模型
+
+## 参考
+[slim doc](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)
+[官方样板工程](https://github.com/tensorflow/models/tree/master/slim)
+[mnist工程](https://github.com/mnuke/tf-slim-mnist)
+[ssd tf工程](https://github.com/balancap/SSD-Tensorflow)
+[slim notebook](https://github.com/tensorflow/models/blob/master/slim/slim_walkthrough.ipynb)

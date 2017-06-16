@@ -1,5 +1,5 @@
 ---
-title: How to convert dataset to TF-Record files
+title: How to convert dataset to TF-Record files and read TF-Record files
 tags:
 ---
 
@@ -281,10 +281,7 @@ def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
     labels_to_names = None
     if dataset_utils.has_labels(dataset_dir):
         labels_to_names = dataset_utils.read_label_file(dataset_dir)
-    # else:
-    #     labels_to_names = create_readable_names_for_imagenet_labels()
-    #     dataset_utils.write_label_file(labels_to_names, dataset_dir)
-
+    
     return slim.dataset.Dataset(
             data_sources=file_pattern,
             reader=reader,
@@ -295,3 +292,12 @@ def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
             labels_to_names=labels_to_names)
 
 ```
+
+
+调用的时候使用`moudle.get_split(split_name, dataset_dir)`， 在我们这里应该是`module.getsplit('train', '/tmp/')`。
+
+
+## reference
+1. http://warmspringwinds.github.io/tensorflow/tf-slim/2016/12/21/tfrecords-guide/
+2. https://github.com/balancap/SSD-Tensorflow/blob/master/datasets/pascalvoc_to_tfrecords.py
+3. 
