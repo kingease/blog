@@ -12,4 +12,4 @@ dataset = mnist.get_split('train', FLAGS.data_dir)
 ```
 
 这次讲读取到训练前的batch化。流程图大致是这样的：
-![flowchart-read-and-batch-tfrecord](http://oor53bfqy.bkt.clouddn.com/dataset_to_batches_train.png)
+![flowchart-read-and-batch-tfrecord](http://oor53bfqy.bkt.clouddn.com/dataset_to_batches_train1.png)

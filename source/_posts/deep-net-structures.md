@@ -39,7 +39,7 @@ date: 2017-05-24 00:00:00
 构成 graph 的基础构件，常用的 layer 的概念有：
 2. dense/fully-connected layer (activation=None/RELU/sigmoid)
 3. reshape layer
-4. drop layer
+4. drop layer (istraining)
 4. conv2d layer
 5. pooling layer
 6. rnn layer
@@ -48,7 +48,7 @@ date: 2017-05-24 00:00:00
 9. encode layer
 10. decode layer
 11. activation layer
-12. batch_normalization layer
+12. batch_normalization layer (istraining)
 
 
 ### SubLayers
