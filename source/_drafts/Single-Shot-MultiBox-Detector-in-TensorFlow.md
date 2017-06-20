@@ -8,11 +8,11 @@ tags:
 - [ ] 看懂网络结构
     - [ ]  vgg
     - [ ]  feature layers
+        - [ ] anchor 的 选择
+            - [x] size
+            - [x] ratio
     - [ ]  predictions
-        - [ ] anchor
-            - [ ] size
-            - [ ] ratio
-            - [ ] 根据 size ratio 输出 default box
+        - [x] 根据 size ratio 输出 default box
         - [ ] 输出 multi box
         - [ ]  nms
 - [ ] 看懂代价方程
@@ -35,6 +35,10 @@ tags:
 # SSD 的原理
 
 使用前向卷积神经网络（feed-forward convolutional network）产生固定长度的一组包围盒（bounding box）,以及这些盒中物体类别（object class）,最后用非极值抑制（non-maximun suppression）产生最后的结果。
+
+事实上做的是， 对默认的anchor_box (default box) 的和感兴趣区域的offset的回归。
+并不是对每一个像素点的回归。
+可以想象成feature_map所生成的一组boxes，从中挑出接近感兴趣区域的，然后对偏移量进行回归。
 
 ## prediction step 网络的创建
 Multi-scale feature maps for detection 
@@ -65,8 +69,13 @@ prediction output value: m x n
         > 这里的offset 就是 上述的 location
 
 
+> 如何根据对 default box 的 offsetes， 计算的bbox?
 
+np_methods.ssd_bboxes_decode()
 
+> 从一堆bboxes中挑选最有可能性的box的 non-maximun selection
+
+np_methods.bboxes_nms()
 
 ### 网络结构
 `block1 ~ block11` 描述 conv net 的结构
