@@ -65,3 +65,10 @@ Resize = IntEnum('Resize', ('NONE',                # Nothing!
                             'PAD_AND_RESIZE',      # Pad, and resize to output shape.
                             'WARP_RESIZE'))        # Warp resize.
 ```
+
+
+## 如何获取文件的扩展名？
+``` python
+import os
+os.path.splitext(file_name)
+```

@@ -24,6 +24,12 @@ https://github.com/tensorflow/models/tree/master/slim
 [如何使用的jupyter notebook]
 https://github.com/tensorflow/models/blob/master/slim/slim_walkthrough.ipynb
 
+可供使用的模型列表
+https://github.com/tensorflow/models/tree/master/slim
+
+一般的流程是
+1. 定义网络 （在 nets 的模块下，创建我们自己的network)
+2. 
 
 ## TF-Slim
 https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim
@@ -99,3 +105,6 @@ slim.learning.train(train_op, log_dir, init_fn=init_fn)
 
 > 但最后一层怎么修改呢？
 
+不是对现有的网络的修改，而是重新建立网络。然后导入某些层的模型数据。
+参考部分恢复模型：
+https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim#partially-restoring-models

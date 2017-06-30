@@ -13,6 +13,9 @@ tags:
 ### 1. datasets
 训练时，读取使用的数据集，分片等，所有的数据集都要封装成module。
 
+对 datasets 的理解参考 data reading in tensorflow：
+http://honggang.io/2016/08/19/tensorflow-data-reading/
+
 ### 2. preprocessing
 图像的预处理函数 不同的网络，可能有不同的预处理函数，如：
 1. vgg
@@ -73,6 +76,58 @@ tags:
 
 [如何创建网络和打印网络结构]
 
+#### 如何对网络中的部分变量进行恢复
+https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim#partially-restoring-models
+
+恢复的模型的中变量的名称要和生成的model.ckpt的模型中命名的变量名要一致。
+几个关键的函数
+```
+slim.get_model_variables()
+```
+```
+slim.assign_from_checkpoint_fn()
+```
+
+建立恢复映射
+``` python
+# 获得当前网络的所有变量名
+my_model_variables = slim.get_model_variables()
+origin_model_variables = [name_in_checkpoint(var) for var in my_model_variables]
+# 建立映射
+variables_to_store = { ori:var for ori, var in zip(origin_model_variables, my_model_variables)}
+```
+一般当前网络的命名和checkpoint的命名有一定的规律如 `vgg_16/conv1/weight` 在新的网络是`ssd_vgg_512/conv1/weight` 可以定义
+``` python
+def name_in_checkpoint(var):
+    var.op.name.replece('sdd_vgg_512', 'vgg_16')
+```
+
+应用恢复映射
+```
+tf.train.Saver(variables_to_restore)
+```
+or 
+```
+slim.assign_from_checkpoint_fn(
+        checkpoint_path,
+        variables_to_restore)
+```
+
+#### 在恢复网络参数的过程中的依次选择加载文件的逻辑是：
+train_dir > checkpoint_path(.ckpt) > checkpoint_path(latest)
+1. 检查 train_dir 下是否有ckpt文件
+    ``` python
+    checkpoint_path = tf.train.latest_checkpoint(train_dir)
+    ```
+    如果有就加载到模型内，忽略后面的checkpoint_path。
+2. 检查 checkpoint_path, 是否是文件
+    如果是文件，据加载文件
+3. 如果是目录，就加载 checkpoint_path 文件夹下最进的 checkpoint 文件
+
+
+可共使用的模型列表：
+https://github.com/tensorflow/models/tree/master/slim
+
 ### loss
 ``` python
 loss = ...
@@ -84,8 +139,10 @@ tf.losses.add(loss)
 ## Inference的组件与流程
 
 ## 参考
-[slim doc](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)
-[官方样板工程](https://github.com/tensorflow/models/tree/master/slim)
-[mnist工程](https://github.com/mnuke/tf-slim-mnist)
-[ssd tf工程](https://github.com/balancap/SSD-Tensorflow)
-[slim notebook](https://github.com/tensorflow/models/blob/master/slim/slim_walkthrough.ipynb)
+
+[官方样板工程][https://github.com/tensorflow/models/tree/master/slim](https://github.com/tensorflow/models/tree/master/slim)
+[mnist工程][https://github.com/mnuke/tf-slim-mnist](https://github.com/mnuke/tf-slim-mnist)
+[ssd tf工程][https://github.com/balancap/SSD-Tensorflow](https://github.com/balancap/SSD-Tensorflow)
+[slim notebook][https://github.com/tensorflow/models/blob/master/slim/slim_walkthrough.ipynb](https://github.com/tensorflow/models/blob/master/slim/slim_walkthrough.ipynb)
+[slim doc][https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/slim)
+[slim model][https://github.com/tensorflow/models/tree/master/slim](https://github.com/tensorflow/models/tree/master/slim)

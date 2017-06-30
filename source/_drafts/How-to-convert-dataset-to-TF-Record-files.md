@@ -187,7 +187,7 @@ def _add_to_tfrecord(dataset_dir, name, tfrecord_writer):
         _process_image(dataset_dir, name)
     example = _convert_to_example(image_data, labels, labels_text,
                                   bboxes, shape, difficult, truncated)
-    tfrecord_writer.write(example.SerializeToString())
+    tfrecord_writer.write(example.SterializeToString())
 
 
 def _get_output_filename(output_dir, name, idx):
