@@ -18,3 +18,13 @@ virtualenv --system-site-packages ENV
 ```
 your virtual environment will inherit packages from /usr/lib/python2.7/site-packages
 
+
+### centos
+
+```
+sudo yum install gcc
+```
+
+```
+sudo yum install gcc-c++
+```
