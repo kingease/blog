@@ -13,6 +13,12 @@ tags:
 5. attention filter
 
 
+## invoice detection
+使用切边的方法容易受边界的影响，所以，使用 homography 方法，截取感兴趣的发票区域
+参考：
+http://docs.opencv.org/3.0-beta/doc/py_tutorials/py_feature2d/py_feature_homography/py_feature_homography.html
+
+
 ##  3. 词的侦测 Word Detector
 
 ### 传统的计算机视觉方法 （对字体宽度不大的字，很容易丢失）
@@ -29,6 +35,8 @@ http://feram.co/scikit-image-cheatsheet/
 document scanner
 http://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/
 
+
+
 #### 一个实现的code
 https://github.com/AwesomeLemon/document-recognition
 以及对应的文章
@@ -39,12 +47,26 @@ https://awesomelemon.github.io/2017/01/15/Document-recognition-with-Python-OpenC
 但要依赖于好的的binary,
 压线的情况有时不利于连续区域的搜索。
 
+https://github.com/Raverss/tensorflow-RLSA-NMS
+
+
+https://github.com/matthewearl/deep-anpr
+
+直线提取
+http://www.cnblogs.com/wangxinyu0628/p/5932034.html
 
 ### 基于SSD深度网络的方法
 目前计划使用 SSD （single short dectection）的方法做文字部分的检测。
 #### SSD 
 参考： https://github.com/balancap/SSD-Tensorflow
 详细在笔记 Single-Shot-MultiBox-Detector-in-TensorFlow.md中讨论
+
+使用ssd找字的模块，训练完成， 基本可用。 但仍需要几点处理
+1. 字框的合并
+    - 有的框并不能覆盖当前的ROI区域，需要合并。
+    - 在 y 方向上如果没有足够高的交叉不要合并
+    - 从置信度比较高的方框开始合并，抑制和自己交叉 y, 扩展和自己交叉的 x
+    - 
 
 #### word detection
 参考：https://github.com/oyxhust/ssd-text_detection
@@ -86,3 +108,8 @@ input images:
 5. 如何生成数据集，参考：http://www.robots.ox.ac.uk/~vgg/data/text/#sec-chars
 6. 上述数据生成代码可能是：https://bitbucket.org/jaderberg/text-renderer
 
+
+## reference
+1. http://www.robots.ox.ac.uk/~vgg/data/scenetext/
+2. https://blogs.dropbox.com/tech/2017/04/creating-a-modern-ocr-pipeline-using-computer-vision-and-deep-learning/
+3. http://www.robots.ox.ac.uk/~vgg/data/text/#sec-chars

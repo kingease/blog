@@ -3,6 +3,10 @@ title: python language
 tags:
 ---
 
+## namedtuple 的理解？
+The standard `tuple` uses numerical indexes to access its members.
+
+`namedtuple` instances are just as memory efficient as regular tuples because they do not have per-instance dictionaries.
 
 ## 如何创建自定义的数据结构？
 使用`namedtuple` 创建结构

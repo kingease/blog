@@ -64,7 +64,20 @@ tags:
 更小的instance被存储，用在后面的环节。
 
 
+动态规划问题主要有两类：
+1. 优化问题 Optimization Problem
+    希望可以找到一个可行解feasible solution, 可以最大化或者最小化目标函数。
+2. 组合问题 Combinatorial Problem
+    希望知道做一件事有多少途径，或者，事件发生的概率
 
+动态规划方法有下列模式：
+1. 证明问题可以分解成子问题。
+2. 使用更小的解循环定义解的值。
+3. 从bottom到up求解问题。
+4. 
 
+## reference
+1. https://www.hackerearth.com/practice/algorithms/dynamic-programming/introduction-to-dynamic-programming-1/tutorial/
+2. 
 
 
