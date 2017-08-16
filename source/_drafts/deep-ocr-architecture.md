@@ -26,6 +26,7 @@ MSER(最大稳定极值区域)，该方法在不同的阈值下(thresholds or le
 
 简易环境的方法和样例：
 文章：http://www.danvk.org/2015/01/07/finding-blocks-of-text-in-an-image-using-python-opencv-and-numpy.html
+
 对应的代码：
 https://github.com/danvk/oldnyc/blob/master/ocr/tess/crop_morphology.py
 

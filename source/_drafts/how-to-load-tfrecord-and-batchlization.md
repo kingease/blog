@@ -17,3 +17,25 @@ dataset = mnist.get_split('train', FLAGS.data_dir)
 
 data reading in tensorflow
 http://honggang.io/2016/08/19/tensorflow-data-reading/
+
+
+## sparse tensor load
+1. https://stackoverflow.com/questions/36917807/how-to-load-sparse-data-with-tensorflow
+
+2. http://planspace.org/20170427-sparse_tensors_and_tfrecords/
+3. https://mathehacker.com/2017/01/29/skip-gram-in-matrix-and-tfrecord-io
+4. https://www.tensorflow.org/programmers_guide/reading_data#reading_from_files
+
+
+
+Sparse input data
+
+SparseTensors don't play well with queues. If you use SparseTensors you have to decode the string records using tf.parse_example after batching (instead of using tf.parse_single_example before batching).
+
+> 如何在batch之后，形成Sparse Tensor?
+https://www.tensorflow.org/api_docs/python/tf/parse_example
+
+https://stackoverflow.com/questions/40610115/tensorflow-use-tf-parse-example-for-jpeg-batches
+
+## reference
+1. https://saicoco.github.io/tf3/

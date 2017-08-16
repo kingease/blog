@@ -22,7 +22,8 @@ tags:
 它的复杂度是多项式的。
 比其他例如，回溯法和穷举法， 效率更高。
 
-
+One can think of dynamic programming as a table-filling algorithm: you know the calculations you have to do, so you pick the best order to do them in and ignore the ones you don't have to fill in.
+动态规划被认为是一个表格填充算法。
 
 通过例子来理解：
 

@@ -361,4 +361,5 @@ def get_split(split_name, dataset_dir, file_pattern=None, reader=None):
 ## reference
 1. http://warmspringwinds.github.io/tensorflow/tf-slim/2016/12/21/tfrecords-guide/
 2. https://github.com/balancap/SSD-Tensorflow/blob/master/datasets/pascalvoc_to_tfrecords.py
-3. 
+3. https://saicoco.github.io/tf3/
+4. 

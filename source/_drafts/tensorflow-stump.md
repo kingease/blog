@@ -48,3 +48,8 @@ with tf.Graph().as_default():
 with tf.variable_scope('lstm1'):
     ....
 ```
+
+
+## 在tensorflow中避免使用自然的常数要使用`tf.constant`!
+否则会出很多奇奇怪怪的问题。
+

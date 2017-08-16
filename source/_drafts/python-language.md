@@ -76,3 +76,24 @@ Resize = IntEnum('Resize', ('NONE',                # Nothing!
 import os
 os.path.splitext(file_name)
 ```
+
+
+## python 的常用异常？
+使用方法
+```python
+try:
+    ...
+except [ExceptType [as object]]: 
+    ...
+```
+
+异常类型
+1. KeyboardInterrupt
+2. 
+
+
+
+
+
+
+
