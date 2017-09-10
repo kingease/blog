@@ -75,10 +75,17 @@ One can think of dynamic programming as a table-filling algorithm: you know the 
 1. 证明问题可以分解成子问题。
 2. 使用更小的解循环定义解的值。
 3. 从bottom到up求解问题。
-4. 
+
+
+## edit distance
+编辑距离 是 衡量 两个字符串不相似的方法。
+
+1. 多少次操作（插入、删除、替换）能将一个字符串变成另外一个字符串。
+
+
 
 ## reference
 1. https://www.hackerearth.com/practice/algorithms/dynamic-programming/introduction-to-dynamic-programming-1/tutorial/
-2. 
+2. https://www.hackerearth.com/practice/algorithms/dynamic-programming/2-dimensional/tutorial/
 
 

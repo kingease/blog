@@ -53,3 +53,9 @@ with tf.variable_scope('lstm1'):
 ## 在tensorflow中避免使用自然的常数要使用`tf.constant`!
 否则会出很多奇奇怪怪的问题。
 
+
+
+## 在text-line-image-reader这个项目里，遇到的问题
+1. learning rate 设的有点大(0.001)，导致loss不减少， 把learning rate 调到1e-6才出现收敛。
+2. batch_size 要大一点不然下降的比较慢。 128
+3. 

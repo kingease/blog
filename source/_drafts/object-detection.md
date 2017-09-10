@@ -12,7 +12,7 @@ tags:
 关键词
 
 Region Proposal：
-1. select search 
+1. select search / edge box
 2. e2e 使用卷积神经网络直接产生。
 
 
