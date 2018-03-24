@@ -1,5 +1,5 @@
 ---
-title: python tools
+title: python tools and enviroments
 tags:
 ---
 
@@ -15,19 +15,6 @@ pip install virtualenv
 # install nvidia 的组件
 https://www.tensorflow.org/install/install_sources
 
-## 安装 cuda
-```
-sudo apt install nvidia-cuda-toolkit
-```
-
-https://developer.nvidia.com/cuda-downloads
-```
-sudo dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
-sudo apt-get update
-sudo apt-get install cuda
-```
-https://developer.nvidia.com/cudnn
-安装 cudnn, 需要先注册，下载安装
 
 ### 创建默认环境
 ```
@@ -40,7 +27,7 @@ your virtual environment will inherit packages from /usr/lib/python2.7/site-pack
 但在jupyter 里查看
 ```
 import sys
-sys.executeable
+sys.executable
 ```
 发现并不是当前的虚拟环境，这是因为kernel被指向了其他的位置。
 
@@ -66,4 +53,10 @@ sudo yum install gcc
 
 ```
 sudo yum install gcc-c++
+```
+
+## 如果遇到源有问题的时候, 如何临时修改源
+
+```
+pip install pika -i https://pypi.python.org/simple
 ```

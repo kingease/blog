@@ -36,7 +36,13 @@ http://feram.co/scikit-image-cheatsheet/
 document scanner
 http://www.pyimagesearch.com/2014/09/01/build-kick-ass-mobile-document-scanner-just-5-minutes/
 
+text line detection
+https://github.com/dengdan/seglink
+https://github.com/argman/EAST
+http://blog.csdn.net/shaoxiaohu1/article/details/51251084
 
+!!!! 看起来效果不错
+https://github.com/gombru/TextFCN
 
 #### 一个实现的code
 https://github.com/AwesomeLemon/document-recognition
@@ -112,5 +118,9 @@ input images:
 
 ## reference
 1. http://www.robots.ox.ac.uk/~vgg/data/scenetext/
+2. https://github.com/JarveeLee/SynthText_Chinese_version
+3. https://github.com/Jayhello/textbox_proposals_fcrn
 2. https://blogs.dropbox.com/tech/2017/04/creating-a-modern-ocr-pipeline-using-computer-vision-and-deep-learning/
 3. http://www.robots.ox.ac.uk/~vgg/data/text/#sec-chars
+4. https://github.com/dengdan/seglink
+5. https://handong1587.github.io/deep_learning/2015/10/09/ocr.html
