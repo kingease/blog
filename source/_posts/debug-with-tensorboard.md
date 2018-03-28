@@ -1,5 +1,5 @@
 ---
-title: debug with tensorboard
+title: 使用tensorboard进行debug
 tags:
   - tensorflow
   - debug

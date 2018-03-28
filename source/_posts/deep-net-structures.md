@@ -1,5 +1,5 @@
 ---
-title: deep net structures
+title: 深度网络结构
 tags:
   - tensorflow
   - deep learning

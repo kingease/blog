@@ -17,12 +17,17 @@ tags:
 
 -----
 
-接下来，我们用更正式的方式描述这个问题, 我们考虑映射，将输入序列$X = [x_1, x_2, \ldots, x_T]$，比如音频信号， 变成对应的输出序列$Y = [y_1, y_2, \ldots, y_U]$，比如文本信息。 我们想寻找一个准确的函数将$X$’s映射成$Y$’s。
+接下来，我们用更正式的方式描述这个问题, 我们考虑映射，将输入序列$X = [x_1, x_2, \ldots, x_T]$，比如音频信号， 变成对应的输出序列$Y = [y_1, y_2, \ldots, y_U]$，比如文本信息。 我们想寻找一个准确的函数将$\lbrace X\rbrace$映射成$\lbrace Y \rbrace$。
 
 使用简单的监督学习算法这里会遇到些挑战，比如：
 * $X$ 和 $Y$ 在长度上是变化的，不是固定的长度。
 * $X$ 和 $Y$ 的长度比也是不固定的。
 * 我们在$X$和$Y$的元素之间没有准确的对应关系（没有对齐)。
+
+
+CTC 算法可以解决上述问题。例如给定$X$，它可以给出$\lbrace Y \rbrace$中所有$Y$的概率。我们可用这个分布推断一个可能的输出或者给出指定某个结果的概率。
+
+Not all ways of computing the loss function and performing inference are tractable. We’ll require that CTC do both of these efﬁciently.
 
 ## 参考
 1. https://distill.pub/2017/ctc/
