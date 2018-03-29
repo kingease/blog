@@ -24,10 +24,14 @@ tags:
 * $X$ 和 $Y$ 的长度比也是不固定的。
 * 我们在$X$和$Y$的元素之间没有准确的对应关系（没有对齐)。
 
-
 CTC 算法可以解决上述问题。例如给定$X$，它可以给出$\lbrace Y \rbrace$中所有$Y$的概率。我们可用这个分布推断一个可能的输出或者给出指定某个结果的概率。
 
-Not all ways of computing the loss function and performing inference are tractable. We’ll require that CTC do both of these efﬁciently.
+并不是所有计算损失函数(loss function)以及进行预测(inference)都是简单易行的。我们希望CTC可以在两方面都能有高效的表现。
+
+-----
+
+## 算法
+
 
 ## 参考
 1. https://distill.pub/2017/ctc/
