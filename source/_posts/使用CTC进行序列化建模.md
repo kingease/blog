@@ -28,10 +28,6 @@ CTC 算法可以解决上述问题。例如给定$X$，它可以给出$\lbrace Y
 
 并不是所有计算损失函数(loss function)以及进行预测(inference)都是简单易行的。我们希望CTC可以在两方面都能有高效的表现。
 
------
-
-## 算法
-
 
 ## 参考
 1. https://distill.pub/2017/ctc/
