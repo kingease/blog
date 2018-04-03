@@ -22,10 +22,27 @@ Django 是目前公司开发的核心框架，需要对它进行深入的学习�
 
 
 ### QuerySets
+1. query_set.exists()
+2. query_set.first()
 
 
 ### 基于function的View和基于class的View
+1. function based
 
+
+### View, Form 和 Model 之间的关系
+0. Model 的Feild 里有vailidator的设置可以进行数据的校验
+1. Form 在 Model 上一层，做数据清理也可以做数据校验
+2. View 将 request.POST 传给 Form
+3. form.is_valid() 确认数据的有效性
+3. form 使用 clean_xxx(self) 进行对字段的清理
+3. form.cleaned_data.get() 获得字段
+3. form.errors 是校验的结果
+
+
+### model
+1. one2one :  instance.onemodel
+2. one2many : instance.manymodel_set
 
 ### url路由
 
