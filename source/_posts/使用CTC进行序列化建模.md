@@ -52,7 +52,18 @@ CTC算法是不需要输入和输出数据间的对齐信息。但是，要在�
 在引入具体的形式的CTC算法前，我们先考虑一种原始的方法。我们用一个例子来说明,假设输入的数据的长度为6而输出是$Y=[c,a,t]$，有3个字符。对齐$X$和$Y$的方式是对每一步输入都赋予一个输出的字符，输出的结果是合并重复的字符。
 <img src="https://distill.pub/2017/ctc/assets/naive_alignment.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
 
-### slot
+这个方法存在两个问题：
+
+第一，它必须要每一个输入步都要对起到某些输出上，这不太合理。在语音识别方面，例如，输入可能会有没有对应输出的无声状态。
+
+第二，如果，在有一行中有多个字符的情况下，我们可能无法获得输出。考虑对齐$[h, h, e, l, l, l, o]$,合并重复的结果是"$helo$"而不是"$hello$"
+
+为了解决这个问题，CTC为输出引入了一个新的标识符。这个标识符有时被称作空白标识(blank token)。我们这里把它记做$\epsilon$。这个$\epsilon$标识符不对应任何输出，而只是简单地从输出中剔除。
+
+CTC允许的对齐选项和输出有相同的长度。所有的对齐选项，只要在合并重复以及剔除$\epsilon$后，与$Y$相同就是合法的：
+
+<img src="https://distill.pub/2017/ctc/assets/ctc_alignment_steps.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+
 
 ****
 
