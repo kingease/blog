@@ -64,6 +64,13 @@ CTC允许的对齐选项和输出有相同的长度。所有的对齐选项，�
 
 <img src="https://distill.pub/2017/ctc/assets/ctc_alignment_steps.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
 
+1. 首先，合并重复的字符
+2. 然后，剔除所有$\epsilon$空白符
+3. 最后，剩下的字符输出
+
+如果$Y$在一行中有两个相同的字符，那么有效的对齐在它俩中间一定会有一个$\epsilon$。在这个规则的帮助下，我们可以区分"hello"和"helo"两者间不同的对齐选项的区别。
+
+让我们看一个例子，长度为6的输入，输出为$[c,a,t]$。下面有有效和无效的对齐选项的样例：
 
 ****
 
