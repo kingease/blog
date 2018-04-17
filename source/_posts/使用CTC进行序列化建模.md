@@ -72,7 +72,27 @@ CTC允许的对齐选项和输出有相同的长度。所有的对齐选项，�
 
 让我们看一个例子，长度为6的输入，输出为$[c,a,t]$。下面有有效和无效的对齐选项的样例：
 
-****
+<img src="https://distill.pub/2017/ctc/assets/valid_invalid_alignments.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+
+无效对齐的情形：
+1. 对应的$Y=[c,c,a,t]$
+2. 长度为5
+3. 缺少'a'
+
+CTC对齐有些非常好的特性。首先，$X$和$Y$间允许的对齐是单调的。当从一个输入变到另外一个输入，输出可能会保持不变。第二个属性是反之亦然。它意味着第三个属性：$Y$的长度不会超过$X$长度。
+
+### 损失函数（loss function）
+
+CTC对齐方法给我们一个自然的方式可以从每一步的概率得到整个输出序列的概率。
+
+<img src="https://distill.pub/2017/ctc/assets/full_collapse_from_audio.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+
+1. 我们从一个输入序列开始，比如音频的声谱
+2. 输入经过一个RNN处理
+3. 神经网络给出$p_t(a|X)$, 它是对输入的每一步的输出在$\lbrace h, e, l, o \epsilon, \rbrace$上的分布。
+4. 有了每一步的概率，我们可以计算不同序列的概率。
+5. 剔除重复和空白字符，得到输出的分布。
+
 
 ## 参考
 1. https://distill.pub/2017/ctc/
