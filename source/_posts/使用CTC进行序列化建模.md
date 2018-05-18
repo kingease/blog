@@ -109,10 +109,37 @@ $$ Z= [\epsilon, y_1, \epsilon, y_2, \cdots, \epsilon, y_U, \epsilon] $$
 
 令$\alpha$两个对齐融合的某个节点的得分数，更准确的，$\alpha_{s,t}$是子串$Z_{1:s}$在$t$步的CTC的得分数。正如我们要看到的，我们将计算最终的CTC的得分数，$P(Y|X)$， 也就是$\alpha$'s在最后一步时的得分。只要我们知道$\alpha$在前面的值，就可以推算$\alpha_{s,t}$。 有以下两种情况：
 
-#### 情形1：
-在这个情形下，我们不能跳过$z_{s-1}$，也就是在$Z$中的前一个字符(标识符)。
-- 第一个原因是前一个字符是$Y$中的字符。因为每一个$Y$中的字符都跟着一个$\epsilon$，我们可以确定这种情形，当$z_{s-1}=\epsilon$。
-- 第二个原因是我会有在两个相同的字符中相连的情况[注，比如`hello`中的两个连续的`l`], 我们可以确定这种情形，如果$z_s=z_{s-2}$
+#### 情形1:
+- 前一个字符是$Y$中的字符。因为每一个$Y$中的字符都跟着一个$\epsilon$，我们可以确定这种情形，当$z_{s-1}=\epsilon$。
+- 会有在两个相同的字符中相连的情况[注，比如`hello`中的两个连续的`l`], 我们可以确定这种情形，如果$z_s=z_{s-2}$
+
+作为结果，我们有两个来源点位置。
+<img src="https://distill.pub/2017/ctc/assets/cost_no_skip.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+
+这个情形下的计算公式是：
+$$ \alpha_{s,t} = (\alpha_{s-1,t-1} + \alpha_{s, t-1}) \cdot p_t(z_s | X)$$
+
+
+作为结果，我们有两个来源点位置。
+<img src="https://distill.pub/2017/ctc/assets/cost_no_skip.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+
+这个情形下的计算公式是：
+$$ \alpha_{s,t} = (\alpha_{s-1,t-1} + \alpha_{s, t-1}) \cdot p_t(z_s | X)$$
+
+
+作为结果，我们有两个来源点位置。
+<img src="https://distill.pub/2017/ctc/assets/cost_no_skip.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+
+这个情形下的计算公式是：
+$$ \alpha_{s,t} = (\alpha_{s-1,t-1} + \alpha_{s, t-1}) \cdot p_t(z_s | X)$$
+
+#### 情形2:
+在第二个情形，$z_{s-1}$前后两个标识符是不同的。作为结果，我们有三个来源点位置。
+<img src="https://distill.pub/2017/ctc/assets/cost_regular.svg" style="border: none; display: block;margin-left: auto;margin-right: auto;">
+这种情形下的计算公式是：
+$$ \alpha_{s,t} = (\alpha_{s-2,t-1} + \alpha_{s-1,t-1} + \alpha_{s,t-1}) \cdot p_t(z_s | X) $$
+
+[注，之前我们通过排列组合的方式，会得到一个巨量的计算值。而在这里把它表示成前后两步的计算。其实是前一步计算涉及到更前一步的所有计算所致，而且前面的计算往往是重复的计算。这样，计算的流程可通过一个图的形式表现出来。如果可以用图表示，那么就可以使用动态规划来加速计算过程。]
 
 
 ## 参考
