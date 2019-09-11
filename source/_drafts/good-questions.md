@@ -5,7 +5,7 @@ tags:
 
 
 ## 概率
-1. 已知一个经验分布，我们如何通过这个分布来产生随机数？                                                                                          
+1. 已知一个经验分布，我们如何通过这个分布来产生随机数？
 ```python
 def pick_word(probabilities, int_to_vocab):
 
