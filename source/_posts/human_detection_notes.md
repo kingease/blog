@@ -1,7 +1,9 @@
 ---
-title: 人的检测与识别
+title: 人的检测与识别 + 测试 with Tensorflow
 date: 2019-09-11 12:00:00
-tags: deep learning
+tags: 
+    - deep learning
+    - testing with tensorflow 
 ---
 
 # 人的检测与识别
@@ -11,6 +13,7 @@ tags: deep learning
 
 ## 人脸的检测与识别
 Face Recognition(人脸识别) 相关的操作有：
+
 10. Face Detection
 11. Face Landmarkding
 20. Face Alignment
@@ -37,6 +40,7 @@ Face localisation 有更广泛的含义，包含如下阶段：
     [https://arxiv.org/abs/1905.00641] RetinaFace: Single-stage Dense Face Localisation in the Wild
 
 - 人脸对齐(Face alignment)
+
     [https://arxiv.org/abs/1812.01936] Stacked Dense U-Nets with Dual Transformers for Robust Face Alignment
 
 - 人脸识别(Face recognition)
@@ -86,6 +90,17 @@ Online hard sample mining
 
 reference:
 https://kpzhang93.github.io/MTCNN_face_detection_alignment/paper/spl.pdf
+https://github.com/AITTSMD/MTCNN-Tensorflow
+
+数据集
+http://pan.baidu.com/s/1eSNpdRG
+http://shuoyang1213.me/WIDERFACE/
+http://mmlab.ie.cuhk.edu.hk/archive/CNN_FacePoint.htm
+
+更往前的工作有：
+* A convolutional neural network cascade for face detection
+* From facial parts responses to face detection: A deep learning approach
+
 
 ### 移动端的or轻模型
 * https://github.com/becauseofAI/MobileFace
@@ -94,3 +109,10 @@ https://kpzhang93.github.io/MTCNN_face_detection_alignment/paper/spl.pdf
 # 人的性别
 # 人的年龄
 https://github.com/Alireza-Akhavan/deep-face-recognition#age-estimation-dataset
+
+
+# 测试
+
+
+## reference 
+https://guillaumegenthial.github.io/testing.html
