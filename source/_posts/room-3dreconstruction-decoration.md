@@ -94,3 +94,100 @@ https://www.blendercn.org/4794.html
 
 eevee 
 
+# blender 的 场景组成
+
+blender 数据格式
+https://www.barneyparker.com/blender-json-import-export-plugin/
+blender 带材质的模型
+https://blog.csdn.net/lyq19870515/article/details/80498667
+export three.js
+https://blog.csdn.net/qq_30100043/article/details/79606355
+
+threejs schema
+https://github.com/mrdoob/three.js/wiki
+https://github.com/mrdoob/three.js/wiki/JSON-Model-format-3
+
+另外一个web3d的框架
+https://github.com/BabylonJS/BlenderExporter
+
+## 数据标准
+https://www.khronos.org/gltf/
+https://github.com/KhronosGroup/glTF/blob/master/README.md
+
+gltf 的 模型库
+https://sketchfab.com/3d-models?features=downloadable&sort_by=-likeCount
+
+
+资源的定义:meshes, materials, textures, images
+场景树的定义是:nodes
+
+### blender 的 gltf 导入导出库的源代码
+https://github.com/KhronosGroup/glTF-Blender-IO
+
+
+### scene 和 node的关系
+
+nodes 具有嵌套的树状结构，它只是逻辑的数据，表示各空间的嵌套关系。
+它的叶子节点会具体引用某些资源。
+
+nodes 用一个 list 表示一个树。
+node 通过children 指向自己的孩子节点。
+每个节点的id就是list中的index。
+node 通过 rotation & translation & scale 定义子空间在父空间的位置和尺寸。
+
+node 引用的某个mesh, 表示 这个 mesh 对象 放入到 node 这个空间中。
+
+### buffer & bufferView & accessors
+buffer 包含了一组二进制数据
+
+bufferView 是buffer中的一个片段
+??? bufferView 中的target 事实上指定的是数据对象的存储模型： 顶点(Vertex:34962)还是顶点索引(VertexIndex:34963)
+buffer 的数据被分割成许多部分，每一部分被定义在bufferView中
+
+accessors 是对bufferView的进一步分割
+componentType 表示bufferView中的原子数据的类型，从二进制数据转化为实际的逻辑数据类型: UINT8, UINT16, FLOAT 等等
+type 表示基于逻辑数据组成二阶的数据对象类型: SCALAR, VEC3
+count 表示有几个type类型的数据对象。
+max, min 表示数据的边界，常常用于boundingbox的快速确定。
+sparse 保存的是 变化数据的index(=> refer to bufferView) 和 value(=> refer to bufferView)
+
+一切数据全都保存在buffer 和 bufferView中
+accssors 记录数据的解析过程和协议
+
+### mesh
+mesh 又称 triangle mesh, 三角网格,
+### mesh.primitive 
+mesh.primitive 是组成mesh的更小的单元，构建mesh的基础块。
+mesh.primitive 的 attributes 包含 "POSITION" 是顶点的accessors
+mesh.primitive 的 attributes 包含 "NORMAL" 是顶点的法线的accessors
+
+mesh.primitive.mode 默认是 TRIANGLES, index的组成顺序
+
+mesh.primitive 的 attributes 包含 "TEXCOORD_0" ... "TEXCOORD_I" 定义多组 文理坐标。这也说明有多张纹理在使用。
+
+### material & texture & sampler & image
+
+material instance的property定义的是物体光线计算的参数，如在metallic-roughness模型下的计算参数
+
+```json
+"pbrMetallicRoughness": {
+        "baseColorFactor": [ 1.000, 0.766, 0.336, 1.0 ],
+        "metallicFactor": 0.5,
+        "roughnessFactor": 0.1
+      }
+```
+
+texture => smapler
+        => image[source]
+
+上述的"baseColorFactor" => "baseColorTexture" 可以用texture进行替换这样颜色测采样会更丰富。
+```json
+"baseColorTexture" : {
+  "index" : 0, // refer to textures[i]
+  "texCoord": 2 // refer to mesh.primitive.attributes.TEXCOORD_I
+}
+```
+说明不同材质的使用固定的 TEXCOORD_I 这样增加文理的通用性
+
+关于material 有许多计算模型，这里可能需要根据，实际情况逐一了解各种计算模型吧。
+
